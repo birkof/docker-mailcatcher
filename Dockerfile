@@ -1,9 +1,9 @@
+# Import base image
 FROM birkof/ubuntu
 
 MAINTAINER Daniel STANCU <birkof@birkof.ro>
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV TERM xterm-256color
 
 # Update & upgrade the package repository
 RUN apt-get update \
@@ -27,7 +27,7 @@ ADD supervisor/conf.d/ /etc/supervisor/conf.d/
 
 # Clean up the mess
 RUN apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Exposed port/s
 EXPOSE 1080 1025
