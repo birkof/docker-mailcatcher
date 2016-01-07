@@ -26,8 +26,13 @@ RUN postconf -e relayhost=127.0.0.1:1025
 ADD supervisor/conf.d/ /etc/supervisor/conf.d/
 
 # Clean up the mess
-RUN apt-get clean \
+RUN apt-get remove --purge -y \
+        build-essential \
+        ruby-dev \
+        libsqlite3-dev \
+    && apt-get autoclean \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Exposed port/s
+# Exposed port/s (smtp & web)
 EXPOSE 1080 1025
