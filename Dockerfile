@@ -11,6 +11,7 @@ RUN apt-get update \
 
 # Install postfix package & libraries
 RUN apt-get install -yq \
+    make \
     libsqlite3-dev \
     ruby \
     ruby-dev \
