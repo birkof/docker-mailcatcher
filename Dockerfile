@@ -1,39 +1,21 @@
-# Import base image
-FROM birkof/ubuntu
+FROM alpine
 
 MAINTAINER Daniel STANCU <birkof@birkof.ro>
 
-ENV DEBIAN_FRONTEND noninteractive
+RUN apk add --no-cache ruby ruby-bigdecimal sqlite-libs libstdc++
 
-# Update & upgrade the package repository
-RUN apt-get update \
-    && apt-get upgrade -y
+ENV MAILCATCHER_VERSION 0.6.4
 
-# Install postfix package & libraries
-RUN apt-get install -yq \
-    make \
-    libsqlite3-dev \
-    ruby \
-    ruby-dev \
-    mailutils
-
-# Install Mailcatcher package
-RUN gem install --no-ri --no-rdoc mailcatcher
-
-# Set relayhost in postfix & reload postfix
-RUN postconf -e relayhost=127.0.0.1:1025
-
-# Add supervisor configurations
-ADD supervisor/conf.d/ /etc/supervisor/conf.d/
-
-# Clean up the mess
-RUN apt-get remove --purge -y \
-        build-essential \
+RUN \
+    buildDeps=" \
         ruby-dev \
-        libsqlite3-dev \
-    && apt-get autoclean \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+        make g++ \
+        sqlite-dev \
+    " && \
+    apk add --no-cache $buildDeps && \
+    gem install -v $MAILCATCHER_VERSION mailcatcher --no-ri --no-rdoc && \
+    apk del $buildDeps
 
-# Exposed port/s (smtp & web)
-EXPOSE 1080 1025
+EXPOSE 25 80
+
+CMD ["mailcatcher", "--foreground", "--ip=0.0.0.0", "--smtp-port=25", "--http-port=80"]
