@@ -14,7 +14,7 @@ sudo docker run \
     birkof/docker-mailcatcher
 ```
 
-Now you can access to the mailcatcher smtp throught the `1025` port and the web interface via `http://localhost:1080`
+Now you can access to the mailcatcher smtp throught the `25` port and the web interface via `http://localhost`
 Feel free to map ports differently.
 
 Development
@@ -25,8 +25,8 @@ Development
 make build # sudo docker build -t birkof/docker-mailcatcher .
 
 # Test the image by running a container that launch nginx
-make run # sudo docker run --rm=true -t -i -p 1080:1080 birkof/docker-mailcatcher
-# Then check http://localhost:1080
+make run # sudo docker run --rm=true -t -i -p 80:80 birkof/docker-mailcatcher
+# Then check http://localhost:80
 
 # Remove the image
 make clear # sudo docker rmi -f birkof/docker-mailcatcher
