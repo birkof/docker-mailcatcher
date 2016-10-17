@@ -12,7 +12,7 @@ RUN \
         make g++ \
         sqlite-dev \
     " && \
-    apk add --no-cache $buildDeps && \
+    apk add --no-cache $buildDeps openssl-dev && \
     gem install -v $MAILCATCHER_VERSION mailcatcher --no-ri --no-rdoc && \
     apk del $buildDeps
 
