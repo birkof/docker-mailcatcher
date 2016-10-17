@@ -20,9 +20,4 @@ RUN \
 
 EXPOSE 25 80
 
-
-apk add --update ruby ruby-io-console ca-certificates && 
-
-
-
 CMD ["mailcatcher", "--foreground", "--ip=0.0.0.0", "--smtp-port=25", "--http-port=80"]
