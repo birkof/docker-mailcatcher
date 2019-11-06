@@ -2,21 +2,24 @@ FROM alpine
 
 MAINTAINER Daniel STANCU <birkof@birkof.ro>
 
-RUN apk add --no-cache ruby ruby-bigdecimal sqlite-libs libstdc++ ca-certificates
+RUN apk add --no-cache ca-certificates openssl
 
-ENV MAILCATCHER_VERSION 0.6.4
+RUN apk add --no-cache \
+        ruby \
+        ruby-bigdecimal \
+        ruby-etc \
+        ruby-json \
+        libstdc++ \
+        sqlite-libs
 
-RUN \
-    buildDeps=" \
+ARG MAILCATCHER_VERSION=0.7.1
+
+RUN apk add --no-cache --virtual .build-deps \
         ruby-dev \
         make g++ \
         sqlite-dev \
-    " && \
-    apk add --no-cache $buildDeps && \
-    update-ca-certificates && \
-    rm -rf /var/cache/apk/* && \
-    gem install -v $MAILCATCHER_VERSION mailcatcher --no-ri --no-rdoc && \
-    apk del $buildDeps
+    && gem install -v $MAILCATCHER_VERSION mailcatcher --no-ri --no-rdoc \
+    && apk del .build-deps
 
 EXPOSE 25 80
 
