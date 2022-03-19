@@ -12,13 +12,13 @@ RUN apk add --no-cache \
         libstdc++ \
         sqlite-libs
 
-ARG MAILCATCHER_VERSION=0.7.1
+ARG MAILCATCHER_VERSION=0.8.0
 
 RUN apk add --no-cache --virtual .build-deps \
         ruby-dev \
         make g++ \
         sqlite-dev \
-    && gem install -v $MAILCATCHER_VERSION mailcatcher --no-ri --no-rdoc \
+    && gem install -v $MAILCATCHER_VERSION mailcatcher \
     && apk del .build-deps
 
 EXPOSE 25 80

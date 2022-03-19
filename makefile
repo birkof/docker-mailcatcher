@@ -1,8 +1,8 @@
 build:
-	sudo docker build -t birkof/docker-mailcatcher .
+	docker build -t birkof/docker-mailcatcher .
 
 run:
-	sudo docker run --rm=true -t -i -p 1080:1080 birkof/docker-mailcatcher
+	docker run --rm=true -t -i -p 8080:80 birkof/docker-mailcatcher
 
 clear:
-	sudo docker rmi -f birkof/docker-mailcatcher
+	docker rmi -f birkof/docker-mailcatcher
